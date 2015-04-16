@@ -76,7 +76,8 @@
         link: function (scope, element, attributes) {
 
           var dropdownTrigger = element.children()[0];
-          
+          var clickHandler;
+
           scope.toggleDropdown = function () {
               scope.open = !scope.open;
           };
@@ -213,25 +214,28 @@
           }
 
           if (scope.settings.closeOnBlur) {
-              $document.on('click', function (e) {
-                  var target = e.target.parentElement;
-                  var parentFound = false;
+              clickHandler = function (e) {
+                  if (scope.open) {
+                      var target = e.target.parentElement;
+                      var parentFound = false;
 
-                  while (angular.isDefined(target) && target !== null && !parentFound) {
-                      if (_.contains(target.className.split(' '), 'multiselect-parent') && !parentFound) {
-                          if(target === dropdownTrigger) {
-                              parentFound = true;
+                      while (angular.isDefined(target) && target !== null && !parentFound) {
+                          if (_.contains(target.className.split(' '), 'multiselect-parent') && !parentFound) {
+                              if (target === dropdownTrigger) {
+                                  parentFound = true;
+                              }
                           }
+                          target = target.parentElement;
                       }
-                      target = target.parentElement;
-                  }
 
-                  if (!parentFound) {
-                      scope.$apply(function () {
-                          scope.open = false;
-                      });
+                      if (!parentFound) {
+                          scope.$apply(function () {
+                              scope.open = false;
+                          });
+                      }
                   }
-              });
+              };
+              $document.on('click', clickHandler);
           }
 
           scope.getGroupTitle = function (groupValue) {
@@ -361,6 +365,12 @@
           };
 
           scope.externalEvents.onInitDone();
+          scope.$on('$destroy', function () {
+              if (clickHandler) {
+                  $document.off('click', clickHandler);
+              }
+          });
+
         }
       };
 	}]);
