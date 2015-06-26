@@ -34,7 +34,8 @@
 	            template += '<li ng-show="settings.enableSearch && !settings.noSeparators" class="divider"></li>';
 
 	            // New item
-	            template += '<li ng-show="settings.enableNewItem"><div class="dropdown-header"><input type="text" class="form-control" style="width: 100%;" ng-model="newItem" placeholder="{{texts.newItemPlaceholder}}" ng-keydown="onNewItemAddKeyDown($event)" /></li>';
+	            template += '<li ng-show="settings.enableNewItem"><div class="dropdown-header"><input type="text" class="form-control" style="width: 100%;" ng-model="newItem" placeholder="{{texts.newItemPlaceholder}}" ng-keydown="onNewItemAddKeyDown($event)" />';
+	            template += '<span class="glyphicon glyphicon-plus icon-plus" ng-click="onNewItemAddClick()"></span></li>';
 	            template += '<li ng-show="settings.enableNewItem && !settings.noSeparators" class="divider"></li>';
 
           if (groups) {
@@ -45,13 +46,13 @@
           }
 
           // Menu row
-          template += '<div class="menu-item">';
+          template += '<div class="menu-item" ng-click="setSelectedItem(getPropertyForObject(option,settings.idProp))">';
 
           // Status (check / uncheck)
           template += '<div class="menu-item-status"><span class="glyphicon" data-ng-class="{\'glyphicon-ok icon-check\': isChecked(getPropertyForObject(option,settings.idProp)), \'glyphicon-remove icon-uncheck\': !isChecked(getPropertyForObject(option,settings.idProp))}"></span></div>';
 
           // Label
-          template += '<div class="menu-item-label" role="menuitem" tabindex="-1" ng-click="setSelectedItem(getPropertyForObject(option,settings.idProp))">{{getPropertyForObject(option, settings.displayProp)}}</div>';
+          template += '<div class="menu-item-label" role="menuitem" tabindex="-1">{{getPropertyForObject(option, settings.displayProp)}}</div>';
 
           // Edit button
           template += '<div class="menu-item-edit" ng-click="showEdit($event)"><span ng-show="settings.enableEdit" class="glyphicon glyphicon-pencil icon-pencil"></span></div></div>';
@@ -76,7 +77,8 @@
         link: function (scope, element, attributes) {
 
           var dropdownTrigger = element.children()[0];
-          
+          var clickHandler;
+
           scope.toggleDropdown = function () {
               scope.open = !scope.open;
           };
@@ -213,25 +215,28 @@
           }
 
           if (scope.settings.closeOnBlur) {
-              $document.on('click', function (e) {
-                  var target = e.target.parentElement;
-                  var parentFound = false;
+              clickHandler = function (e) {
+                  if (scope.open) {
+                      var target = e.target.parentElement;
+                      var parentFound = false;
 
-                  while (angular.isDefined(target) && target !== null && !parentFound) {
-                      if (_.contains(target.className.split(' '), 'multiselect-parent') && !parentFound) {
-                          if(target === dropdownTrigger) {
-                              parentFound = true;
+                      while (angular.isDefined(target) && target !== null && !parentFound) {
+                          if (_.contains(target.className.split(' '), 'multiselect-parent') && !parentFound) {
+                              if (target === dropdownTrigger) {
+                                  parentFound = true;
+                              }
                           }
+                          target = target.parentElement;
                       }
-                      target = target.parentElement;
-                  }
 
-                  if (!parentFound) {
-                      scope.$apply(function () {
-                          scope.open = false;
-                      });
+                      if (!parentFound) {
+                          scope.$apply(function () {
+                              scope.open = false;
+                          });
+                      }
                   }
-              });
+              };
+              $document.on('click', clickHandler);
           }
 
           scope.getGroupTitle = function (groupValue) {
@@ -359,8 +364,18 @@
           		event.preventDefault();
           	}
           };
+          scope.onNewItemAddClick = function () {
+        		scope.events.onNewItemAdd(scope.newItem);
+        		scope.newItem = '';
+          };
 
           scope.externalEvents.onInitDone();
+          scope.$on('$destroy', function () {
+              if (clickHandler) {
+                  $document.off('click', clickHandler);
+              }
+          });
+
         }
       };
 	}]);

@@ -34,7 +34,8 @@
 	            template += '<li ng-show="settings.enableSearch && !settings.noSeparators" class="divider"></li>';
 
 	            // New item
-	            template += '<li ng-show="settings.enableNewItem"><div class="dropdown-header"><input type="text" class="form-control" style="width: 100%;" ng-model="newItem" placeholder="{{texts.newItemPlaceholder}}" ng-keydown="onNewItemAddKeyDown($event)" /></li>';
+	            template += '<li ng-show="settings.enableNewItem"><div class="dropdown-header"><input type="text" class="form-control" style="width: 100%;" ng-model="newItem" placeholder="{{texts.newItemPlaceholder}}" ng-keydown="onNewItemAddKeyDown($event)" />';
+	            template += '<span class="glyphicon glyphicon-plus icon-plus" ng-click="onNewItemAddClick()"></span></li>';
 	            template += '<li ng-show="settings.enableNewItem && !settings.noSeparators" class="divider"></li>';
 
           if (groups) {
@@ -362,6 +363,10 @@
           		scope.newItem = '';
           		event.preventDefault();
           	}
+          };
+          scope.onNewItemAddClick = function () {
+        		scope.events.onNewItemAdd(scope.newItem);
+        		scope.newItem = '';
           };
 
           scope.externalEvents.onInitDone();
