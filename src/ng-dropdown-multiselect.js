@@ -45,13 +45,13 @@
           }
 
           // Menu row
-          template += '<div class="menu-item">';
+          template += '<div class="menu-item" ng-click="setSelectedItem(getPropertyForObject(option,settings.idProp))">';
 
           // Status (check / uncheck)
           template += '<div class="menu-item-status"><span class="glyphicon" data-ng-class="{\'glyphicon-ok icon-check\': isChecked(getPropertyForObject(option,settings.idProp)), \'glyphicon-remove icon-uncheck\': !isChecked(getPropertyForObject(option,settings.idProp))}"></span></div>';
 
           // Label
-          template += '<div class="menu-item-label" role="menuitem" tabindex="-1" ng-click="setSelectedItem(getPropertyForObject(option,settings.idProp))">{{getPropertyForObject(option, settings.displayProp)}}</div>';
+          template += '<div class="menu-item-label" role="menuitem" tabindex="-1">{{getPropertyForObject(option, settings.displayProp)}}</div>';
 
           // Edit button
           template += '<div class="menu-item-edit" ng-click="showEdit($event)"><span ng-show="settings.enableEdit" class="glyphicon glyphicon-pencil icon-pencil"></span></div></div>';
