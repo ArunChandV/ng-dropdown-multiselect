@@ -55,7 +55,7 @@
           template += '<div class="menu-item-label" role="menuitem" tabindex="-1">{{getPropertyForObject(option, settings.displayProp)}}</div>';
 
           // Edit button
-          template += '<div class="menu-item-edit" ng-click="showEdit($event)"><span ng-show="settings.enableEdit" class="glyphicon glyphicon-pencil icon-pencil"></span></div></div>';
+          template += '<div class="menu-item-edit" ng-click="showEdit($event)"><span ng-show="settings.enableEditItem" class="glyphicon glyphicon-pencil icon-pencil"></span></div></div>';
 
           // Edit placeholder
           template += '<div class="edit-item" style="display:none">';
@@ -147,7 +147,7 @@
               externalIdProp: 'id',
               enableSearch: false,
               enableNewItem: false,
-              enableEdit: false,
+              enableEditItem: false,
               alwaysOpened: false,
               noSeparators: false,
               selectionLimit: 0,
