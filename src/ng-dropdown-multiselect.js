@@ -35,7 +35,7 @@
 
 	            // New item
 	            template += '<li ng-show="settings.enableNewItem"><div class="dropdown-header"><input type="text" class="form-control" style="width: 100%;" ng-model="newItem" placeholder="{{texts.newItemPlaceholder}}" ng-keydown="onNewItemAddKeyDown($event)" />';
-	            template += '<span class="glyphicon glyphicon-plus icon-plus" ng-click="onNewItemAddClick()"></span></li>';
+	            template += '<span class="glyphicon glyphicon-plus icon-plus" ng-hide="settings.hideNewItemButton" ng-click="onNewItemAddClick()"></span></li>';
 	            template += '<li ng-show="settings.enableNewItem && !settings.noSeparators" class="divider"></li>';
 
           if (groups) {
@@ -147,6 +147,7 @@
               externalIdProp: 'id',
               enableSearch: false,
               enableNewItem: false,
+              hideNewItemButton: false,
               enableEditItem: false,
               alwaysOpened: false,
               noSeparators: false,

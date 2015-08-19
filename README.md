@@ -2,7 +2,7 @@
 
 This package was forked from https://github.com/dotansimha/angularjs-dropdown-multiselect and the only differences from the original are:
 
-- Option (enableNewItem) to show a field to add a new item to the collection, and the respective event call (onNewItemAdd);
+- Option (enableNewItem) to show a field to add a new item to the collection, and the respective event call (onNewItemAdd) and action button (hideNewItemButton);
 - Option (alwaysOpened) to leave the menu always opened;
 - When an item isn't selected, it shows a "cross" glyphicon;
 - 'active' class added to the main container so you know when the dropdown list is opened or not (only if you don't use the alwaysOpened setting);
@@ -120,13 +120,19 @@ This package was forked from https://github.com/dotansimha/angularjs-dropdown-mu
               <td>enableSearch</td>
               <td>Boolean</td>
               <td>false</td>
-              <td>Indicated if to show the search input or not.</td>
+              <td>Show the search input or not.</td>
           </tr>
           <tr>
               <td>enableNewItem</td>
               <td>Boolean</td>
               <td>false</td>
-              <td>Indicated if to show the new item input or not.</td>
+              <td>Show an input field at the top to add new items.</td>
+          </tr>
+          <tr>
+              <td>hideNewItemButton</td>
+              <td>Boolean</td>
+              <td>false</td>
+              <td>Show a "add button" in the new item input field. Only makes sense if the previous setting is set to "true".</td>
           </tr>
           <tr>
               <td>enableEditItem</td>
