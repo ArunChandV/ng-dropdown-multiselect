@@ -176,13 +176,16 @@
 
           scope.searchFilter = scope.searchFilter || '';
 
-          if (angular.isDefined(scope.settings.groupBy)) {
-              scope.$watch('options', function (newValue) {
-                  if (angular.isDefined(newValue)) {
-                      scope.orderedItems = $filter('orderBy')(newValue, scope.settings.groupBy);
+          scope.$watch('options', function (newValue) {
+              if (angular.isDefined(newValue)) {
+                  if (angular.isDefined(scope.settings.groupBy)) {
+                    scope.orderedItems = $filter('orderBy')(newValue, scope.settings.groupBy);
                   }
-              });
-          }
+                  if (scope.selectedModel.length === scope.options.length) {
+                    scope.toggleCheckAllNone = false;
+                  }
+              }
+          });
 
           angular.extend(scope.settings, scope.extraSettings || []);
           angular.extend(scope.externalEvents, scope.events || []);
@@ -371,7 +374,9 @@
         		scope.newItem = '';
           };
 
-          if (scope.selectedModel.length === scope.options.length) { scope.toggleCheckAllNone = false; }
+          if (angular.isDefined(scope.options) &&  scope.selectedModel.length === scope.options.length) {
+            scope.toggleCheckAllNone = false;
+          }
 
           scope.externalEvents.onInitDone();
           scope.$on('$destroy', function () {
