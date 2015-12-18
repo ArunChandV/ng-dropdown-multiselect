@@ -371,6 +371,8 @@
         		scope.newItem = '';
           };
 
+          if (scope.selectedModel.length === scope.options.length) { scope.toggleCheckAllNone = false; }
+
           scope.externalEvents.onInitDone();
           scope.$on('$destroy', function () {
               if (clickHandler) {

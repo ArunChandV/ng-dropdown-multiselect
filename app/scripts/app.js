@@ -9,7 +9,7 @@
 		/* @ngInject */
 		.controller('ngDropdownMultiselectDemoCtrl', function ($scope) {
 
-			$scope.examplemodel = [];
+			$scope.examplemodel = [{'id':1}];
 			$scope.$watch('examplemodel', function () { $scope.asd = $scope.examplemodel.id; },true);
 			$scope.exampledata = [
 				{id: 1, label: 'David'},
@@ -18,7 +18,7 @@
 			$scope.examplesettings = {
 				showCheckAll: true,
 				showUncheckAll: true,
-				// toggleCheckAllNone: true,
+				toggleCheckAllNone: true,
 				dynamicTitle: true,
 				smartButtonMaxItems: 3,
 				enableNewItem: true,
