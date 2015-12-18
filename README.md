@@ -6,6 +6,7 @@ This package was forked from https://github.com/dotansimha/angularjs-dropdown-mu
 - alwaysOpened: to leave the menu always opened;
 - enableEditItem: to enable editing and remove of the items. Also added 2 new events: onItemRemove and onIteOption to enable inline editing and removing items. You can also use different icons, just use 'icon-pencil' for the edit button and 'icon-trash' for the delete button;
 - toggleCheckAllNone: in case you want to toggle between the "Check all" and Uncheck all", instead of showing both at the same time;
+- closeOnMouseOut: close menu when hovering the mouse out of the menu;
 - When an item isn't selected, it shows a "cross" glyphicon;
 - 'active' class added to the main container so you know when the dropdown list is opened or not (only if you don't use the alwaysOpened setting);
 - noSeparators: to do not show separators;
