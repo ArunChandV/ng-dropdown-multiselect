@@ -142,6 +142,7 @@
               scrollable: false,
               scrollableHeight: '300px',
               closeOnBlur: true,
+              closeOnMouseOut: false,
               displayProp: 'label',
               idProp: 'id',
               externalIdProp: 'id',
@@ -219,7 +220,15 @@
               }
           }
 
-          if (scope.settings.closeOnBlur) {
+          if (scope.settings.closeOnMouseOut) {
+              $(element).mouseleave(function () {
+                  scope.$apply(function () {
+                      scope.open = false;
+                  });
+              });
+          }
+
+          if (scope.settings.closeOnBlur && !scope.settings.alwaysOpened) {
               clickHandler = function (e) {
                   if (scope.open) {
                       var target = e.target.parentElement;
@@ -364,14 +373,14 @@
 
           scope.onNewItemAddKeyDown = function (event) {
           	if (event.keyCode === 13) {
-          		scope.events.onNewItemAdd(scope.newItem);
-          		scope.newItem = '';
+          		scope.onNewItemAddClick();
           		event.preventDefault();
           	}
           };
           scope.onNewItemAddClick = function () {
         		scope.events.onNewItemAdd(scope.newItem);
         		scope.newItem = '';
+            scope.toggleCheckAllNone = true;
           };
 
           if (angular.isDefined(scope.options) &&  scope.selectedModel.length === scope.options.length) {

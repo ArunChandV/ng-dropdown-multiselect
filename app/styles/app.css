@@ -34,3 +34,7 @@
 	display: table-cell;
 	padding: 5px;
 }
+
+.dropdown-menu {
+	margin: 0;
+}

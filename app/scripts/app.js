@@ -23,7 +23,8 @@
 				smartButtonMaxItems: 3,
 				enableNewItem: true,
 				// selectionLimit: 2,
-				enableEdit: true
+				enableEdit: true,
+				closeOnMouseOut: true
 			};
 
 			$scope.exampleevents = {
