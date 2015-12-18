@@ -25,8 +25,8 @@
           var template =  '<div class="multiselect-parent btn-group dropdown-multiselect" ng-class="{active: open && !settings.alwaysOpened}">';
 	            template += '<button type="button" class="dropdown-toggle" ng-class="settings.buttonClasses" ng-click="toggleDropdown()">{{getButtonText()}}&nbsp;<i class="icon-down"></i></button>';
 	            template += '<ul class="dropdown-menu dropdown-menu-form" ng-style="{display: (settings.alwaysOpened || open) ? \'block\' : \'none\', height : settings.scrollable ? settings.scrollableHeight : \'auto\' }" style="overflow: scroll" >';
-	            template += '<li ng-hide="!settings.showCheckAll || settings.selectionLimit > 0"><a data-ng-click="selectAll()"><span class="glyphicon glyphicon-ok"></span>  {{texts.checkAll}}</a>';
-	            template += '<li ng-show="settings.showUncheckAll"><a data-ng-click="deselectAll();"><span class="glyphicon glyphicon-remove"></span>   {{texts.uncheckAll}}</a></li>';
+	            template += '<li ng-show="settings.showCheckAll && settings.selectionLimit === 0 && (!settings.toggleCheckAllNone || settings.toggleCheckAllNone && toggleCheckAllNone)"><a data-ng-click="selectAll()"><span class="glyphicon glyphicon-ok"></span>  {{texts.checkAll}}</a>';
+	            template += '<li ng-show="settings.showUncheckAll && (!settings.toggleCheckAllNone || settings.toggleCheckAllNone && !toggleCheckAllNone)"><a data-ng-click="deselectAll();"><span class="glyphicon glyphicon-remove"></span>   {{texts.uncheckAll}}</a></li>';
 	            template += '<li ng-hide="(!settings.showCheckAll || settings.selectionLimit > 0) && !settings.showUncheckAll || settings.noSeparators" class="divider"></li>';
 
 	            // Search
@@ -160,7 +160,7 @@
               groupByTextProvider: null,
               smartButtonMaxItems: 0,
               smartButtonTextConverter: angular.noop,
-
+              toggleCheckAllNone: false
           };
 
           scope.texts = {
@@ -189,6 +189,8 @@
           angular.extend(scope.texts, scope.translationTexts);
 
           scope.singleSelection = scope.settings.selectionLimit === 1;
+
+          scope.toggleCheckAllNone = true;
 
           function getFindObj(id) {
               var findObj = {};
@@ -296,26 +298,24 @@
           };
 
           scope.selectAll = function () {
-              scope.deselectAll(false);
+              scope.deselectAll();
               scope.externalEvents.onSelectAll();
 
               angular.forEach(scope.options, function (value) {
                   scope.setSelectedItem(value[scope.settings.idProp], true);
               });
+              scope.toggleCheckAllNone = false;
           };
 
-          scope.deselectAll = function (sendEvent) {
-              sendEvent = sendEvent || true;
-
-              if (sendEvent) {
-                  scope.externalEvents.onDeselectAll();
-              }
+          scope.deselectAll = function () {
+              scope.externalEvents.onDeselectAll();
 
               if (scope.singleSelection) {
                   clearObject(scope.selectedModel);
               } else {
                   scope.selectedModel.splice(0, scope.selectedModel.length);
               }
+              scope.toggleCheckAllNone = true;
           };
 
           scope.setSelectedItem = function (id, dontRemove) {
@@ -343,9 +343,11 @@
               if (!dontRemove && exists) {
                   scope.selectedModel.splice(_.findIndex(scope.selectedModel, findObj), 1);
                   scope.externalEvents.onItemDeselect(findObj);
+                  scope.toggleCheckAllNone = true;
               } else if (!exists && (scope.settings.selectionLimit === 0 || scope.selectedModel.length < scope.settings.selectionLimit)) {
                   scope.selectedModel.push(finalObj);
                   scope.externalEvents.onItemSelect(finalObj);
+                  if (scope.selectedModel.length === scope.options.length) { scope.toggleCheckAllNone = false; }
               }
           };
 

@@ -16,12 +16,13 @@
 				{id: 2, label: 'Jhon'},
 				{id: 3, label: 'Danny'}];
 			$scope.examplesettings = {
-				showCheckAll: false,
-				showUncheckAll: false,
+				showCheckAll: true,
+				showUncheckAll: true,
+				// toggleCheckAllNone: true,
 				dynamicTitle: true,
 				smartButtonMaxItems: 3,
 				enableNewItem: true,
-				selectionLimit: 2,
+				// selectionLimit: 2,
 				enableEdit: true
 			};
 

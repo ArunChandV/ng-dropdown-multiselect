@@ -1,14 +1,15 @@
 #AngularJS Dropdown Multiselect
 
-This package was forked from https://github.com/dotansimha/angularjs-dropdown-multiselect and the only differences from the original are:
+This package was forked from https://github.com/dotansimha/angularjs-dropdown-multiselect, and has another set of additional options:
 
-- Option (enableNewItem) to show a field to add a new item to the collection, and the respective event call (onNewItemAdd) and action button (hideNewItemButton);
-- Option (alwaysOpened) to leave the menu always opened;
+- enableNewItem: to show a field to add a new item to the collection, and the respective event call (onNewItemAdd) and action button (hideNewItemButton);
+- alwaysOpened: to leave the menu always opened;
+- enableEditItem: to enable editing and remove of the items. Also added 2 new events: onItemRemove and onIteOption to enable inline editing and removing items. You can also use different icons, just use 'icon-pencil' for the edit button and 'icon-trash' for the delete button;
+- toggleCheckAllNone: in case you want to toggle between the "Check all" and Uncheck all", instead of showing both at the same time;
 - When an item isn't selected, it shows a "cross" glyphicon;
 - 'active' class added to the main container so you know when the dropdown list is opened or not (only if you don't use the alwaysOpened setting);
-- Option (noSeparators) to do not show separators;
-- Added classes (icon-check and icon-uncheck) for the check and uncheck glyphicons, if you don't want to use bootstrap (only for the menu items);
-- Option (enableEditItem) to enable editing and remove of the items. Also added 2 new events: onItemRemove and onIteOption to enable inline editing and removing items. You can also use different icons, just use 'icon-pencil' for the edit button and 'icon-trash' for the delete button.
+- noSeparators: to do not show separators;
+- Added classes (icon-check and icon-uncheck) for the check and uncheck glyphicons, if you don't want to use bootstrap (only for the menu items).
 
 
 ###Install
